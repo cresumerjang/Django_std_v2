@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	url(r'^accounts/', include('accounts.urls')),
+	url(r'^accounts/', include('accounts.urls')), # 프로젝트 전체에서 호출될 앱임으로 namespace를 사용하지 않는다.
+    url(r'^blog/', include('blog.urls', namespace='blog')),
 ]
