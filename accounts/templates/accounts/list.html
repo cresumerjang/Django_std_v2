@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+    {% for member in viewModel %}
+
+        <li>{{ member.이름 }}</li>
+        <li>{{ member.성별 }}</li>
+        <li>{{ member.나이 }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
