@@ -1,0 +1,73 @@
+로그인구현
+from django.contrib.auth.views import login, logout을 사용하여 view에 따로 로직추가 없이 로그인 로그아웃 구현
+urls.py설정과 템플릿 추가만으로 처리 가능하지만 장고프레임워크 구조를 맞춰줘야함
+
+우선 urls.py에 아래 코드구현
+from django.conf.urls import url
+from django.contrib.auth.views import login, logout
+
+urlpatterns = [
+	url(r'^login/$', login, name='login'),
+	url(r'^logout/$', logout, name='logout'),
+]
+
+위처럼 라우팅설정하면
+django.contrib.auth.views에 구현된 login, logout에서 처리된 템플릿으로 연결해 주는데(logout은 리다이렉트)
+https://github.com/django/django/blob/master/django/contrib/auth/views.py
+django.contrib.auth.views의 login에서 사용하는 LoginView에 보면 아래 'template_name'이라는 코드를 볼 수 있다.
+template_name = 'registration/login.html'
+이 부분이 장고 로그인에서 기본적으로 사용하는 템플릿경로이다.
+App의 templates/registration/login.html을 만들거나 따로 지정해 주고 싶을경우 아래처럼 'template_name'을 재선언 해주면 된다.
+
+
+urlpatterns = [
+	url(r'^login/$', login, name='login', kwargs={
+    'template_name': 'accounts/login.html',
+  }),
+	url(r'^logout/$', logout, name='logout'),
+]
+리다이렉트처리하고
+이제 로그인 템플릿에 로그인 화면만 구현해주면 된다.
+장고의 로그인처리에 모델폼을 사용해 {{form.as_p}}와 같은 식으로 간편하게 로그인 관련된 처리를 구현할 수 있다.
+인증을 위해 form태그 내에 {% csrf_token %}를 추가하고 submit만 직접 구현해주면된다.
+<form action="" method="POST">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit">로그인</button>
+</form>
+
+
+마이그레이션하지 않으면 테이블이 없어서 안된다
+Exception Value:
+no such table: auth_user
+python3 manage.py makemigrations
+python3 manage.py migrate
+꼭 마이그레이션하자 ㅋ
+마이그레이션하고도 등록된 유저가없으면 로그인이 안된다.
+테스트를 위해 우선
+python3 manage.py createsuperuser 로 사용자를 생성하고
+localhost:8000/admin에서 사용자를 더 추가할 수 있다.
+로그인해보면
+Page not found (404)가 뜨면서
+/accounts/profile/ 리다이렉트 되는걸 확인할 수 있다.
+
+리다이렉트를 따로 처리하고 싶으면 아래 코드를 추가하면 된다.
+from django.conf import settings
+settings.LOGIN_REDIRECT_URL = '/blog/list'
+하지만 로그인 처리에 유연하지 못하고 의도적으로 특정 케이스에만 적용할 수 있다.
+리다이렉트 옵션이 있을것 같은데
+일단은 라우팅설정에 장고기본 리다이렉트인 profile을 재선언 해주고
+url(r'^profile/$', views.loginComplete, name='login_complete'),
+views에 loginComplete를 구현하여 리다이렉트 처리하였다.
+
+로그아웃은 <a href="{% url 'logout' %}">로그아웃</a> 이런식으로 장고 로그아웃 url만 넣어주면된다.
+
+로그인 처리가 필요한 뷰는
+from django.contrib.auth.decorators import login_required
+임포트하고
+
+메소드윗줄에 장식자로
+@login_required를 추가해주면 자동 처리된다.
+그러면 로그인필요한 페이지 진입시 로그인이필요하면
+로그인페이지로 리다이렉트하고 next파라미터를 사용하여 ?next=/accounts/myAcount/ 파라미터를 붙여 로그인 완료 후
+이전 페이지로 돌려준다.

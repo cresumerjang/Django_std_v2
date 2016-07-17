@@ -5,6 +5,8 @@
     <title>Document</title>
 </head>
 <body>
+  <a href="{% url 'logout' %}">로그아웃</a>
+  {{user}}
     <form action="" method="POST">
         {% csrf_token %}
         {{viewModel.as_ul}}

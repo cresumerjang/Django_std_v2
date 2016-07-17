@@ -9,13 +9,14 @@ class SignupForm(UserCreationForm):
     sex = forms.CharField(max_length=2)
 
     def save(self):
-        djangoUser = super().save(commit=False)
-        djangoUser.save();
+        user = super(SignupForm, self).save(commit=False)
+        user.save();
 
         name = self.cleaned_data.get('name', '')
         age = self.cleaned_data.get('age', '')
         sex = self.cleaned_data.get('sex', '')
 
-        Member.objects.create(user=djangoUser, name=name, age=age, sex=sex)
+        Member.objects.create(user=user, name=name, age=age, sex=sex)
+        # Member.objects.create(member=djangoUser)
 
-        return djangoUser
+        return user
