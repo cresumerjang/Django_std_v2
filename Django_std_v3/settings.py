@@ -53,7 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'superjang.urls'
+ROOT_URLCONF = 'Django_std_v3.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'superjang.wsgi.application'
+WSGI_APPLICATION = 'Django_std_v3.wsgi.application'
 
 
 # Database

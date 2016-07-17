@@ -7,9 +7,10 @@
 <body>
 
 {% for user in viewModel %}
-<li>{{ member.이름 }}</li>
-<li>{{ member.성별 }}</li>
-<li>{{ member.나이 }}</li>
+<li>{{ user.name }}</li>
+<li>{{ user.sex }}</li>
+<li>{{ user.age }}</li>
+<li>{{ user.user_id }}</li>
 {% endfor %}
 </body>
 </html>

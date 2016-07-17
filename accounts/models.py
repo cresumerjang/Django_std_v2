@@ -11,4 +11,4 @@ class Member(models.Model):
     # sex = models.CharField(name='성별', max_length=2, blank=True, null=True)
     name = models.CharField(max_length=30)
     age = models.IntegerField()
-    sex = models.CharField(max_length=2)
+    sex = models.CharField(max_length=2, blank=True, null=True)

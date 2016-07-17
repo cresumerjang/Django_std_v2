@@ -33,10 +33,11 @@ def myAccount(request):
     return render(request, 'accounts/my_account.html', {})
 
 def accountList(request):
-    viewModel = Member.objects.all()
+    viewModel = Member.objects.values()
     return render(request, 'accounts/acount_list.html', {'viewModel' : viewModel,})
-# def login(request):
-#     viewModel = Member.objects.all()
-#     return render(request, 'accounts/list.html', {
-#         'viewModel' : viewModel,
-#     })
+
+def deleteAccount(request):
+    pass
+
+def modifyAccount(request):
+    pass

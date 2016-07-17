@@ -5,13 +5,25 @@ from . import views
 
 # settings.LOGIN_REDIRECT_URL = '/blog/list'
 
+# login redirect 옵션, template옵션 찾기
+# logout redirect 옵션, template옵션 찾기
+# ?next=/accounts/accountList
+#
 urlpatterns = [
-	url(r'^signup/$', views.signup, name='signup'), # 회원가입
-	url(r'^login/$', login, name='login', kwargs={ # 로그인
-		'template_name' : 'accounts/login.html',
-	}),
-	url(r'^logout/$', logout, name='logout'), # 로그아웃
-	url(r'^profile/$', views.loginSuccess, name='login_success'), # 로그인 성공(리다이렉트처리)
-	url(r'^myAccount/$', views.myAccount, name='my_account'), # 내 계정
-	url(r'^accountList/$', views.accountList, name='account_list'), # 내 계정
+	# 회원가입
+	url(r'^signup/$', views.signup, name='signup'),
+	# 로그인
+	url(r'^login/$', login, name='login', kwargs={'template_name' : 'accounts/login.html',}),
+	# 로그아웃
+	url(r'^logout/$', logout, name='logout'),
+	# 로그인 성공(리다이렉트처리)
+	url(r'^profile/$', views.loginSuccess, name='login_success'),
+	# 내 계정
+	url(r'^myAccount/$', views.myAccount, name='my_account'),
+	# 모든 유저 리스트
+	url(r'^accountList/$', views.accountList, name='account_list'),
+	# 탈퇴
+	url(r'^deleteAccount/$', views.deleteAccount, name='delect_account'),
+	# 회원정보 수정
+	url(r'^modifyAccount/$', views.modifyAccount, name='modify_account'),
 ]
